@@ -1,0 +1,83 @@
+name: Validate
+
+on:
+  push:
+  pull_request:
+  schedule:
+    # Home Assistant releases monthly and hassfest tracks the current version,
+    # so a weekly run catches breakage before a user does.
+    - cron: "0 5 * * 1"
+  workflow_dispatch:
+
+jobs:
+  hassfest:
+    name: hassfest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: home-assistant/actions/hassfest@master
+
+  hacs:
+    name: HACS
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: hacs/action@main
+        with:
+          category: integration
+          # brands is permanently ignored, not a pending task: since Home
+          # Assistant 2026.3 the brands repository no longer accepts icons for
+          # custom integrations, because they serve their own from the brand/
+          # directory. A submission there would be closed on sight, so this
+          # check can never pass and never needs to.
+          # https://developers.home-assistant.io/blog/2026/02/24/brands-proxy-api
+          #
+          # hacsjson and integration_manifest are ignored only while this
+          # repository is private, and the step below makes sure that stays
+          # true. Both checks find the file in the tree and then fetch its
+          # contents unauthenticated from raw.githubusercontent.com, which
+          # answers 404 for a private repository -- so they fail on the
+          # download, not on anything in the file. Nothing in this repository
+          # can fix that, and the same URL is how HACS installs, which is why
+          # a private repository cannot be installed from either.
+          ignore: brands hacsjson integration_manifest
+
+      - name: The private-repo exemptions have to go when this repo goes public
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          private=$(gh repo view "$GITHUB_REPOSITORY" --json isPrivate -q .isPrivate)
+          if [ "$private" != "true" ]; then
+            echo "::error::This repository is public now, so hacsjson and integration_manifest can pass."
+            echo "::error::Drop them from the ignore list in .github/workflows/validate.yml -- leaving them there hides two real checks."
+            exit 1
+          fi
+          echo "Repository is still private; the two download-based checks stay exempt."
+
+
+  lint:
+    name: ruff
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+      - run: pip install -r requirements_test.txt
+      - run: ruff check .
+
+  tests:
+    name: pytest on ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: pip install -r requirements_test.txt
+      - run: pytest -q

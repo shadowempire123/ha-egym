@@ -1,0 +1,62 @@
+name: Bug report
+description: Something does not work as described
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please do not post your eGym password, your member id, or a screenshot
+        of the sensors. This integration reports health data — bio-age, body
+        fat, BMI, blood pressure, resting heart rate — and unlike a password,
+        that cannot be changed once it has been published.
+
+        The diagnostics file asked for below is built for this: it reports
+        which fields arrived and of what type, never their values.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What did you expect, and what happened instead?
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Integration version
+      description: From HACS, or the `version` in `manifest.json`.
+      placeholder: 0.2.0
+    validations:
+      required: true
+  - type: input
+    id: ha-version
+    attributes:
+      label: Home Assistant version
+      placeholder: 2026.9.2
+    validations:
+      required: true
+  - type: input
+    id: brand
+    attributes:
+      label: Brand (Netpulse subdomain)
+      description: >-
+        The gym, not you. It is the one setting that differs between
+        installations, and most reports cannot be answered without it.
+      placeholder: mygym
+  - type: textarea
+    id: logs
+    attributes:
+      label: Log output
+      description: >-
+        Settings → System → Logs, filtered for `egym`. Enable debug logging for
+        the integration first if there is nothing there.
+      render: text
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Diagnostics
+      description: >-
+        Optional but useful. Settings → Devices & services → eGym → the three
+        dots → Download diagnostics. Credentials and every measured value are
+        removed from that file automatically; only field names and types
+        remain.
+      render: json

@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.venv/
+.coverage
+
+# Never let a real member login into this repository.
+credentials.env
+*.env
+!*.env.example

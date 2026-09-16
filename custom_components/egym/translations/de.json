@@ -1,0 +1,46 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "eGym verbinden",
+        "description": "Gib den eGym/Netpulse-Markencode deines Studios und deine Mitglieder-Logindaten ein. Die Marke ist die reine Subdomain, z. B. 'mygym' für mygym.netpulse.com — an diesen Host geht dein Passwort, deshalb wird sie streng geprüft.",
+        "data": {
+          "brand": "Marke (Netpulse-Subdomain)",
+          "username": "Benutzername / E-Mail",
+          "password": "Passwort"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Erneut bei eGym anmelden",
+        "description": "eGym akzeptiert das gespeicherte Passwort für {username} nicht mehr. Gib das aktuelle ein.",
+        "data": {
+          "password": "Passwort"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Verbindung zur eGym/Netpulse-API fehlgeschlagen.",
+      "invalid_auth": "Marke, Benutzername oder Passwort sind ungültig.",
+      "invalid_brand": "Nur die Subdomain eingeben, z. B. 'mygym' für mygym.netpulse.com. Nur Kleinbuchstaben, Ziffern und Bindestriche."
+    },
+    "abort": {
+      "already_configured": "Dieses eGym-Konto ist bereits konfiguriert.",
+      "reauth_successful": "Das neue Passwort wurde angenommen."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "eGym-Optionen",
+        "data": {
+          "scan_interval": "Abfrageintervall",
+          "body_values": "Körper- und Bioage-Sensoren"
+        },
+        "data_description": {
+          "scan_interval": "Wie oft eGym abgefragt wird, in Sekunden. Nicht weniger als 300: eGym drosselt häufige Anfragen und sperrt deine Adresse notfalls zeitweise.",
+          "body_values": "Bioage, Körperfett, BMI, VO2max, Ruhepuls und Blutdruck. Das sind Gesundheitsdaten, die wie jeder andere Sensor in der Recorder-Datenbank landen und damit auch in jedem Backup. Abgeschaltet werden sie gar nicht erst abgerufen."
+        }
+      }
+    }
+  }
+}

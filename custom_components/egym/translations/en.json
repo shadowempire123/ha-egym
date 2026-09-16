@@ -1,0 +1,46 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect eGym",
+        "description": "Enter your gym's eGym/Netpulse brand code and your member login. The brand is the bare subdomain, e.g. 'mygym' for mygym.netpulse.com — that is the host your password is sent to, so it is checked strictly.",
+        "data": {
+          "brand": "Brand (Netpulse subdomain)",
+          "username": "Username / email",
+          "password": "Password"
+        }
+      },
+      "reauth_confirm": {
+        "title": "eGym login again",
+        "description": "eGym no longer accepts the stored password for {username}. Enter the current one.",
+        "data": {
+          "password": "Password"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Unable to connect to the eGym/Netpulse API.",
+      "invalid_auth": "The brand, username or password is invalid.",
+      "invalid_brand": "Enter just the subdomain, e.g. 'mygym' for mygym.netpulse.com. Lower-case letters, digits and hyphens only."
+    },
+    "abort": {
+      "already_configured": "This eGym account is already configured.",
+      "reauth_successful": "The new password was accepted."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "eGym options",
+        "data": {
+          "scan_interval": "Polling interval",
+          "body_values": "Body and bio-age sensors"
+        },
+        "data_description": {
+          "scan_interval": "How often eGym is asked, in seconds. Not less than 300: eGym rate-limits frequent requests and may block your address for a while.",
+          "body_values": "Bio-age, body fat, BMI, VO2max, resting heart rate and blood pressure. These are health data and are stored in the recorder database like any other sensor, so they end up in your backups. Switched off, they are not even requested."
+        }
+      }
+    }
+  }
+}

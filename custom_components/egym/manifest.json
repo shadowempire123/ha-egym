@@ -1,0 +1,15 @@
+{
+  "domain": "egym",
+  "name": "eGym",
+  "codeowners": [
+    "@shadowempire123"
+  ],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/shadowempire123/ha-egym",
+  "integration_type": "service",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/shadowempire123/ha-egym/issues",
+  "requirements": [],
+  "version": "0.2.0"
+}
