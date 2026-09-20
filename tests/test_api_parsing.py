@@ -12,6 +12,8 @@ from datetime import UTC, datetime
 
 import pytest
 from egym.api import (
+    _bioage_field,
+    _bioage_value,
     _completed_at,
     _distinct_days,
     _is_gym_workout,
@@ -156,3 +158,31 @@ def test_an_incomplete_set_is_skipped_rather_than_counted_as_zero():
         ]
     }
     assert _volume(session) == pytest.approx(400.0)
+
+
+
+MEASURED = "2026-09-19T13:45:35Z"
+BIOAGE = {
+    "totalDetails": {
+        "totalBioAge": {"value": 52, "amountDiff": -3, "progress": "down", "createdAt": MEASURED},
+    },
+    "flexibilityDetails": {
+        "flexibilityAge": {"value": 54, "amountDiff": None, "createdAt": MEASURED},
+    },
+    "metabolicDetails": {"waistToHipRatio": None},
+}
+
+
+def test_flexibility_arrives_once_the_mobility_test_is_done():
+    assert _bioage_value(BIOAGE, "flexibilityDetails", "flexibilityAge") == 54
+    # Before the test the whole section is null, and so is the sensor.
+    assert _bioage_value({"flexibilityDetails": None}, "flexibilityDetails", "flexibilityAge") is None
+    assert _bioage_value({}, "flexibilityDetails", "flexibilityAge") is None
+
+
+def test_the_change_is_read_as_is_and_a_null_metric_does_not_crash():
+    """A negative change means the score got younger; None means eGym has no
+    previous measurement to compare against, which is not the same as zero."""
+    assert _bioage_field(BIOAGE, "totalDetails", "totalBioAge", "amountDiff") == -3
+    assert _bioage_field(BIOAGE, "flexibilityDetails", "flexibilityAge", "amountDiff") is None
+    assert _bioage_value(BIOAGE, "metabolicDetails", "waistToHipRatio") is None

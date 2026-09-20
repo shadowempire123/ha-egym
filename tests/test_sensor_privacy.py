@@ -61,6 +61,7 @@ def test_the_body_values_are_the_ones_a_person_would_call_health_data():
         "bioage_cardio",
         "bioage_metabolic",
         "bioage_muscle",
+        "bioage_flexibility",
         "bioage_upper_body",
         "bioage_core",
         "bioage_lower_body",

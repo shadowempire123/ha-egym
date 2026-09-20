@@ -53,6 +53,7 @@ BODY_VALUE_KEYS = frozenset(
         "bioage_cardio",
         "bioage_metabolic",
         "bioage_muscle",
+        "bioage_flexibility",
         "bioage_upper_body",
         "bioage_core",
         "bioage_lower_body",
@@ -311,6 +312,13 @@ SENSOR_DESCRIPTIONS = (
         state_class=SensorStateClass.MEASUREMENT,
     ),
     SensorEntityDescription(
+        key="bioage_flexibility",
+        name="Bioage flexibility",
+        icon="mdi:yoga",
+        native_unit_of_measurement=YEARS,
+        state_class=SensorStateClass.MEASUREMENT,
+    ),
+    SensorEntityDescription(
         key="bioage_upper_body",
         name="Bioage upper body",
         icon="mdi:arm-flex-outline",
@@ -441,6 +449,7 @@ def _attributes_for(key: str, data: dict[str, Any]) -> dict[str, Any] | None:
     elif key == "bioage_total":
         extra = {
             "measured_at": data.get("bioage_measured_at"),
+            "change": data.get("bioage_total_change"),
             "hint": data.get("bioage_hint"),
         }
     elif key == "bioage_muscle":
@@ -448,6 +457,15 @@ def _attributes_for(key: str, data: dict[str, Any]) -> dict[str, Any] | None:
             "upper_body": data.get("bioage_upper_body"),
             "core": data.get("bioage_core"),
             "lower_body": data.get("bioage_lower_body"),
+            "measured_at": data.get("bioage_muscle_measured_at"),
+            "change": data.get("bioage_muscle_change"),
+        }
+    elif key in ("bioage_cardio", "bioage_metabolic", "bioage_flexibility"):
+        # `change` is eGym's own delta to the previous measurement, in years.
+        part = key.removeprefix("bioage_")
+        extra = {
+            "measured_at": data.get(f"bioage_{part}_measured_at"),
+            "change": data.get(f"bioage_{part}_change"),
         }
     elif key in ("bioage_upper_body", "bioage_core", "bioage_lower_body"):
         # IMBALANCED means the two sides of the body scored differently.

@@ -100,9 +100,13 @@ Numbers live at `exercises[].attributes.<name>.value`, e.g. `calories`,
 Bio-age is `{totalDetails, muscleDetails, metabolicDetails, cardioDetails,
 flexibilityDetails}`, each metric shaped `{value, progress, percentageDiff,
 amountDiff, createdAt, timezone}`. Sections and individual metrics can be
-`null` — `flexibilityDetails` is `null` without a mobility test, as are
+`null` — `flexibilityDetails` is `null` until the studio's mobility test has
+been done once (verified 2026-09-19: after the test it carries
+`flexibilityAge` in the same shape as the other components), as are
 `systolicPressure`, `diastolicPressure` and `waistToHipRatio` without manual
-entry. `muscleDetails` breaks the muscle score into `upperBodyAge`, `coreAge`
+entry. `amountDiff` is the difference to the previous measurement in whole
+years, `progress` spells the same as `up`/`down`; both are `null` on a first
+measurement. `muscleDetails` breaks the muscle score into `upperBodyAge`, `coreAge`
 and `lowerBodyAge`, each carrying a `musclesState` field (`NONE` /
 `IMBALANCED`) that flags a left/right imbalance. Every section also carries a
 `quote.text`, eGym's own nudge about which measurement is still missing,

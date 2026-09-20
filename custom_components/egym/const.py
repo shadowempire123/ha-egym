@@ -3,7 +3,7 @@ from homeassistant.const import Platform
 DOMAIN = "egym"
 # Keep in sync with the version in manifest.json: it goes into the User-Agent,
 # which is the only thing identifying this client to the Netpulse host.
-VERSION = "0.2.0"
+VERSION = "0.3.0"
 
 CONF_BRAND = "brand"
 CONF_USERNAME = "username"

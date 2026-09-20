@@ -54,10 +54,15 @@ Around 40 sensors, all named `sensor.egym_*`.
 - `last_gym_workout_top_weight` — heaviest weight moved.
 
 **Bio-age and body values** — `bioage_total`, `_cardio`, `_metabolic`,
-`_muscle`, the three muscle regions `_upper_body` / `_core` / `_lower_body`
+`_muscle`, `_flexibility` (unknown until the studio's mobility test has been
+done once), the three muscle regions `_upper_body` / `_core` / `_lower_body`
 (each with a `muscles_state` attribute flagging a left/right imbalance), plus
 `body_fat`, `bmi`, `vo2max`, `resting_heart_rate` and, once entered in the eGym
 app, `waist_to_hip_ratio` and `blood_pressure_systolic` / `_diastolic`.
+
+The total and the four component ages carry a `change` attribute — eGym's own
+difference to the previous measurement in years, negative when the score got
+younger — and a `measured_at` timestamp of the visit that set them.
 
 **These are health data and can be switched off entirely** — see
 [Options](#options).

@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.3.0 — 2026-09-20
+
+### Added
+- **`sensor.egym_bioage_flexibility`.** The fourth component of the bio-age.
+  `flexibilityDetails` is `null` until the studio's mobility test has been done
+  once, which is why the sensor did not exist so far — after the test the
+  section arrives in the same shape as cardio, metabolic and muscle, and the
+  sensor fills itself in. Counts as a body value, so the `body_values` option
+  switches it off with the others.
+- **`change` and `measured_at` attributes on the total and on each component
+  age.** `change` is eGym's own `amountDiff`, the difference to the previous
+  measurement in whole years (negative means younger; absent on a first
+  measurement); `measured_at` is the visit that set the value. That is what
+  the eGym kiosk draws as its trend arrow, and it now sits next to the number
+  on a dashboard instead of needing the recorder history to be worked out.
+
 ## 0.2.0 — 2026-09-16
 
 The first release as a standalone repository, and the first one hardened for

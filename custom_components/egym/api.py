@@ -614,6 +614,29 @@ class EgymApi:
             "bioage_cardio": _bioage_value(bioage, "cardioDetails", "cardioAge"),
             "bioage_metabolic": _bioage_value(bioage, "metabolicDetails", "metabolicAge"),
             "bioage_muscle": _bioage_value(bioage, "muscleDetails", "muscleBioAge"),
+            # Filled by eGym's mobility test. Without one the whole
+            # flexibilityDetails section is null and the sensor stays unknown.
+            "bioage_flexibility": _bioage_value(bioage, "flexibilityDetails", "flexibilityAge"),
+            # `amountDiff` is the change against the previous measurement, in
+            # years, negative when the score got younger -- the number the eGym
+            # kiosk draws as a trend arrow. `createdAt` says which visit set it.
+            "bioage_total_change": _bioage_field(bioage, "totalDetails", "totalBioAge", "amountDiff"),
+            "bioage_cardio_change": _bioage_field(bioage, "cardioDetails", "cardioAge", "amountDiff"),
+            "bioage_cardio_measured_at": _bioage_field(bioage, "cardioDetails", "cardioAge", "createdAt"),
+            "bioage_metabolic_change": _bioage_field(
+                bioage, "metabolicDetails", "metabolicAge", "amountDiff"
+            ),
+            "bioage_metabolic_measured_at": _bioage_field(
+                bioage, "metabolicDetails", "metabolicAge", "createdAt"
+            ),
+            "bioage_muscle_change": _bioage_field(bioage, "muscleDetails", "muscleBioAge", "amountDiff"),
+            "bioage_muscle_measured_at": _bioage_field(bioage, "muscleDetails", "muscleBioAge", "createdAt"),
+            "bioage_flexibility_change": _bioage_field(
+                bioage, "flexibilityDetails", "flexibilityAge", "amountDiff"
+            ),
+            "bioage_flexibility_measured_at": _bioage_field(
+                bioage, "flexibilityDetails", "flexibilityAge", "createdAt"
+            ),
             # The three regions behind the muscle score. `musclesState` flags an
             # imbalance between the two sides of the body and is carried along as
             # a sensor attribute.
